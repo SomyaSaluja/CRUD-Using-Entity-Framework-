@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "UpdateEmployee";
+}
+<script>
+    var id = @ViewBag.id
+
+    $(function () {
+        getEmployeeById();
+    });
+    function getEmployeeById() {
+        debugger;
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:11590/api/Employee/' + id,
+            headers: {
+                'Authorization': 'X12345678'
+            },
+
+            complete: function (response) {
+                debugger;
+                var emp = JSON.parse(response.responseText);
+                $('#empid').val(emp.EmpId);
+                $('#name').val(emp.EmpName);
+                $('#email').val(emp.Email);
+                $('#salary').val(emp.Salary);
+            },
+            error: function (response) {
+                alert('failed to fetch employee data');
+            }
+        })
+    }
+
+    function OnUpdatePress() {
+        debugger;
+        var person = new Object();
+        person.EmpId = $('#empid').val();
+        person.EmpName = $('#name').val();
+        person.Email = $('#email').val();
+        person.Salary = $('#salary').val();
+        $.ajax({
+            url: 'http://localhost:11590/api/Employee/'+id,
+            type: 'PUT',
+            dataType: 'json',
+            headers: {
+                'Authorization': 'X12345678'
+            },
+            data: JSON.stringify(person),
+            contentType: "application/json",
+            success: function (data) {
+                console.log(data);
+                window.location.href = "http://localhost:7988/UserLogin/DashBoard"
+                //loadGrid();
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('Error in Operation');
+            }
+        });
+    }
+
+</script>
+
+<h2>UpdateEmployee</h2>
+<div class="container">
+  <form method="post">
+
+    <label for="fname">Employee Id</label>
+    <input type="text" id="empid" name="empid" placeholder="Your employee Id.." value=@ViewBag.id disabled>
+
+    <label for="lname">Employee Name</label>
+    <input type="text" id="name" name="name" placeholder="Your name..">
+
+    <label for="country">Email</label>
+    <input type="text" id="email" name="email" placeholder="Your email..">
+
+    <label for="subject">Salary</label>
+    <input type="text" id="salary" name="salary" placeholder="Your salary..">
+     <br />
+
+    <input type="button"  id="updateEmployee" value="Update Employee" onclick="OnUpdatePress()"/>
+
+  </form>
+</div>

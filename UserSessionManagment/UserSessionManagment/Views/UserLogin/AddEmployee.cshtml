@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "AddEmployee";
+}
+
+ 
+     <script>
+         $(document).ready(function () {
+            
+             $("#addEmployee").click(function () {
+                 var person = new Object();
+                 person.EmpId = $('#empid').val();
+                 person.EmpName = $('#name').val();
+                 person.Email = $('#email').val();
+                 person.Salary = $('#salary').val();
+                 $.ajax({
+                     url: 'http://localhost:11590/api/Employee',
+                     type: 'POST',
+                     dataType: 'json',
+                     headers: {
+                         'Authorization': 'X12345678'
+                     },
+                     data: JSON.stringify(person),
+                     contentType: "application/json" ,
+                     success: function (data) {
+                         console.log(data);
+                         window.location.href = "http://localhost:7988/UserLogin/DashBoard"
+                         //loadGrid();
+                     },
+                     error: function (xhr, textStatus, errorThrown) {
+                         console.log('Error in Operation');
+                     }
+                 });
+             });
+         });
+    </script>  
+<h2>AddEmployee</h2>
+
+<div class="container">
+  <form method="post">
+
+    <label for="fname">Employee Id</label>
+    <input type="text" id="empid" name="empid" placeholder="Your employee Id..">
+
+    <label for="lname">Employee Name</label>
+    <input type="text" id="name" name="name" placeholder="Your name..">
+
+    <label for="country">Email</label>
+    <input type="text" id="email" name="email" placeholder="Your email..">
+
+    <label for="subject">Salary</label>
+    <input type="text" id="salary" name="salary" placeholder="Your salary..">
+     <br />
+
+    <input type="button"  id="addEmployee"value="Add Employee" />
+
+  </form>
+</div>

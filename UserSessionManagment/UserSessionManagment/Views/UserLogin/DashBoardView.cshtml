@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "DashBoardView";
+}
+
+<script type="text/javascript">  
+        $(document).ready(function () {
+            loadGrid();
+            });      
+    </script>
+
+@if(Session["Name"]!= null)
+{
+    <div class="Logout" style="margin-bottom:10px ; background-color:pink; height:50px;margin-top:5px">
+      @Html.ActionLink("LOGOUT", "Logout")
+    </div>
+    <div class="welcomediv" style="border:2px solid grey">
+         <h2>Welcome @Session["Name"].ToString() </h2>
+    </div>
+    <div>
+    <div class="addUser" style="margin-bottom:10px ; background-color:pink; height:50px;margin-top:5px">
+        @Html.ActionLink("ADD EMPLOYEE" , "AddEmployee");
+    </div>
+    <table class="tblEmployees" border="1">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Salary</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+    </table>
+</div>
+   
+}
